@@ -1357,10 +1357,49 @@ body {
 .feature-card-l h3 { font-size: 1.25rem; margin-bottom: 1rem; }
 .feature-card-l p { font-size: 0.95rem; color: #666; line-height: 1.6; }
 
-.powered-by { padding: 5rem; text-align: center; background: rgba(255,255,255,0.01); }
-.powered-by h3 { font-size: 0.8rem; text-transform: uppercase; color: #444; letter-spacing: 3px; font-weight: 800; margin-bottom: 3rem; }
-.platforms-logos { display: flex; justify-content: center; gap: 5rem; opacity: 0.4; }
-.p-logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
+.powered-by {
+  padding: 8rem 5rem;
+  text-align: center;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.02), transparent);
+}
+
+.powered-by h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 4px;
+  font-weight: 800;
+  margin-bottom: 4rem;
+}
+
+.platforms-logos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.p-logo {
+  padding: 1.5rem 2.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #666;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: default;
+}
+
+.p-logo:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--accent-blue);
+  color: white;
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(59, 130, 246, 0.15);
+}
 
 .creator-section { padding: 8rem 5rem; }
 .creator-card {
