@@ -96,7 +96,7 @@ const Landing = ({ onEnter }) => {
       <section className="creator-section">
         <div className="creator-card">
            <div className="creator-image">
-             <img src="/devansh.png" alt="Devansh Maheshwari" />
+             <img src="/devansh.jpg" alt="Devansh Maheshwari" />
            </div>
            <div className="creator-text">
              <h4>The Visionary Behind CodeQuest</h4>
