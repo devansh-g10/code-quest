@@ -781,6 +781,20 @@ body {
   font-size: 0.85rem;
 }
 
+.contest-details .logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px;
+  margin-bottom: 2.5rem;
+  transition: all 0.3s;
+}
+
+.logo-section:hover {
+  transform: translateX(3px);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+}
+
 .register-btn {
   margin-top: 0.5rem;
   width: 100%;
