@@ -861,31 +861,46 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+.user-avatar-circle-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.avatar-trigger:hover .user-avatar-circle-img {
+  transform: scale(1.05);
+  border-color: var(--accent-blue);
+}
+
 .avatar-edit-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.6);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0;
 }
 
-.avatar-edit-overlay input {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid white;
+.profile-avatar-wrapper:hover .avatar-edit-overlay {
+  opacity: 1;
+}
+
+.avatar-edit-overlay span {
+  font-size: 0.75rem;
+  font-weight: 700;
   color: white;
-  font-size: 0.7rem;
-  padding: 4px;
-  margin-top: 8px;
-  text-align: center;
+  margin-top: 5px;
 }
 
 .profile-main-info {

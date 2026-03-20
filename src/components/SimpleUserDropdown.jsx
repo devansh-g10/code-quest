@@ -22,9 +22,13 @@ const SimpleUserDropdown = ({ user, onLogout, onOpenProfile }) => {
         className="avatar-trigger" 
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="user-avatar-circle">
-          {user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
-        </div>
+        {user.avatar ? (
+          <img src={user.avatar} alt="Profile" className="user-avatar-circle-img" />
+        ) : (
+          <div className="user-avatar-circle">
+            {user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+          </div>
+        )}
       </button>
 
       {isOpen && (

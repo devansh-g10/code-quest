@@ -57,6 +57,21 @@ const Profile = ({ user, token, onUpdateUser }) => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) { // 1MB limit for base64
+        setMessage({ type: 'error', text: 'Image size should be less than 1MB' });
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, avatar: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="profile-container animate-v3">
       {message.text && (
@@ -70,15 +85,16 @@ const Profile = ({ user, token, onUpdateUser }) => {
           <div className="profile-avatar-wrapper">
              <img src={formData.avatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'} alt="Profile" className="profile-avatar-large" />
              {isEditing && (
-                <div className="avatar-edit-overlay">
-                   <Camera size={20} />
+                <label className="avatar-edit-overlay">
+                   <Camera size={26} />
+                   <span>Upload Photo</span>
                    <input 
-                      type="text" 
-                      placeholder="Avatar URL" 
-                      value={formData.avatar}
-                      onChange={(e) => setFormData({...formData, avatar: e.target.value})}
+                      type="file" 
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ display: 'none' }}
                    />
-                </div>
+                </label>
              )}
           </div>
           <div className="profile-main-info">
