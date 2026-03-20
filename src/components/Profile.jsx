@@ -142,7 +142,10 @@ const Profile = ({ user, token, onUpdateUser }) => {
 
       <div className="profile-grid">
         <div className="profile-section-card">
-           <h3 className="section-title-alt"><Globe size={18} /> Social Links</h3>
+           <h3 className="section-title-alt">
+             <div className="title-icon-box"><Globe size={18} /></div> 
+             Social Links
+           </h3>
            <div className="social-links-list">
               <div className="social-link-item">
                  <div className="icon-box github"><Github size={20} /></div>
@@ -193,25 +196,39 @@ const Profile = ({ user, token, onUpdateUser }) => {
         </div>
 
         <div className="profile-section-card">
-           <h3 className="section-title-alt"><Code2 size={18} /> Coding Stats</h3>
+           <h3 className="section-title-alt">
+             <div className="title-icon-box"><Code2 size={18} /></div> 
+             Coding Stats
+           </h3>
            <div className="coding-stats-placeholder">
-              <div className="stat-circle-p">
-                <span className="sc-val">4087</span>
-                <span className="sc-label">Solved</span>
-              </div>
-              <div className="stat-mini-grid">
-                 <div className="mini-stat">
-                    <span className="ms-label">Easy</span>
-                    <span className="ms-val">964</span>
-                 </div>
-                 <div className="mini-stat">
-                    <span className="ms-label">Medium</span>
-                    <span className="ms-val">2208</span>
-                 </div>
-                 <div className="mini-stat">
-                    <span className="ms-label">Hard</span>
-                    <span className="ms-val">915</span>
-                 </div>
+              <div className="stats-hero-row">
+                <div className="stat-circle-p">
+                  <span className="sc-val">4087</span>
+                  <span className="sc-label">Solved</span>
+                </div>
+                <div className="stat-bars-column">
+                   <div className="bar-item easy">
+                      <div className="bar-label-row">
+                         <span className="bl-name">Easy</span>
+                         <span className="bl-count">964 / 4087</span>
+                      </div>
+                      <div className="bar-bg"><div className="bar-fill"></div></div>
+                   </div>
+                   <div className="bar-item medium">
+                      <div className="bar-label-row">
+                         <span className="bl-name">Medium</span>
+                         <span className="bl-count">2208 / 4087</span>
+                      </div>
+                      <div className="bar-bg"><div className="bar-fill"></div></div>
+                   </div>
+                   <div className="bar-item hard">
+                      <div className="bar-label-row">
+                         <span className="bl-name">Hard</span>
+                         <span className="bl-count">915 / 4087</span>
+                      </div>
+                      <div className="bar-bg"><div className="bar-fill"></div></div>
+                   </div>
+                </div>
               </div>
            </div>
         </div>
