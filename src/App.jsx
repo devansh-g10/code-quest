@@ -149,113 +149,125 @@ const App = () => {
   }
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar animate-v3">
-        <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer' }}>
-          CODEQUEST <span>V3.0</span>
-        </div>
-
-        <nav>
-          <div className="filter-section">
-            <h4 className="filter-section-title">General</h4>
-            <button 
-              className={`sidebar-btn ${activeTab === 'problems' ? 'active' : ''}`}
-              onClick={() => setActiveTab('problems')}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Terminal size={18} /> Problems
-              </span>
-            </button>
-            <button 
-              className={`sidebar-btn ${activeTab === 'contests' ? 'active' : ''}`}
-              onClick={() => setActiveTab('contests')}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Trophy size={18} /> Contests
-              </span>
-            </button>
+    <div className={`app-shell ${activeTab === 'landing' ? 'full-width' : ''}`}>
+      {activeTab !== 'landing' && (
+        <aside className="sidebar animate-v3">
+          <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer' }}>
+            CODEQUEST <span>V3.0</span>
           </div>
-
-          <div className="filter-section">
-            <h4 className="filter-section-title">Platforms</h4>
-            <SidebarButton label="All Platforms" value="All" current={platformFilter} onClick={setPlatformFilter} count={stats.total} />
-            {[...new Set(questions.map(q => q.platform))].map(p => (
-              <SidebarButton 
-                key={p} 
-                label={p} 
-                value={p} 
-                current={platformFilter} 
-                onClick={setPlatformFilter} 
-                count={questions.filter(q => q.platform === p).length} 
-              />
-            ))}
-          </div>
-
-          <div className="filter-section">
-            <h4 className="filter-section-title">Difficulty</h4>
-            {['All', 'Easy', 'Medium', 'Hard'].map(d => (
-              <SidebarButton 
-                key={d} 
-                label={d === 'All' ? 'All Difficulties' : d} 
-                value={d} 
-                current={difficultyFilter} 
-                onClick={setDifficultyFilter} 
-                count={d === 'All' ? stats.total : questions.filter(q => q.difficulty === d).length}
-              />
-            ))}
-          </div>
-
-          <div className="filter-section" style={{ marginTop: 'auto' }}>
-            <h4 className="filter-section-title">Question Access</h4>
-            <SidebarButton label="Free Only" value="Free" current={premiumFilter} onClick={setPremiumFilter} />
-            <SidebarButton label="Premium" value="Premium" current={premiumFilter} onClick={setPremiumFilter} count={stats.premium} />
-            <SidebarButton label="Reset All" value="All" current={premiumFilter} onClick={() => {
-              setPlatformFilter('All');
-              setDifficultyFilter('All');
-              setPremiumFilter('All');
-              setSearchQuery('');
-            }} />
-          </div>
-        </nav>
-      </aside>
+  
+          <nav>
+            <div className="filter-section">
+              <h4 className="filter-section-title">General</h4>
+              <button 
+                className={`sidebar-btn ${activeTab === 'problems' ? 'active' : ''}`}
+                onClick={() => setActiveTab('problems')}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Terminal size={18} /> Problems
+                </span>
+              </button>
+              <button 
+                className={`sidebar-btn ${activeTab === 'contests' ? 'active' : ''}`}
+                onClick={() => setActiveTab('contests')}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Trophy size={18} /> Contests
+                </span>
+              </button>
+            </div>
+  
+            <div className="filter-section">
+              <h4 className="filter-section-title">Platforms</h4>
+              <SidebarButton label="All Platforms" value="All" current={platformFilter} onClick={setPlatformFilter} count={stats.total} />
+              {[...new Set(questions.map(q => q.platform))].map(p => (
+                <SidebarButton 
+                  key={p} 
+                  label={p} 
+                  value={p} 
+                  current={platformFilter} 
+                  onClick={setPlatformFilter} 
+                  count={questions.filter(q => q.platform === p).length} 
+                />
+              ))}
+            </div>
+  
+            <div className="filter-section">
+              <h4 className="filter-section-title">Difficulty</h4>
+              {['All', 'Easy', 'Medium', 'Hard'].map(d => (
+                <SidebarButton 
+                  key={d} 
+                  label={d === 'All' ? 'All Difficulties' : d} 
+                  value={d} 
+                  current={difficultyFilter} 
+                  onClick={setDifficultyFilter} 
+                  count={d === 'All' ? stats.total : questions.filter(q => q.difficulty === d).length}
+                />
+              ))}
+            </div>
+  
+            <div className="filter-section" style={{ marginTop: 'auto' }}>
+              <h4 className="filter-section-title">Question Access</h4>
+              <SidebarButton label="Free Only" value="Free" current={premiumFilter} onClick={setPlatformFilter} />
+              <SidebarButton label="Premium Only" value="Premium" current={premiumFilter} onClick={setPlatformFilter} count={stats.premium} />
+              <button className="sidebar-btn" onClick={() => {
+                 setPlatformFilter('All');
+                 setDifficultyFilter('All');
+                 setPremiumFilter('All');
+                 setSearchQuery('');
+              }}>Reset Filters</button>
+            </div>
+          </nav>
+        </aside>
+      )}
 
       <main className="main-content">
-        <header className="top-bar">
-          <div className="search-wrapper">
-            <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input 
-              type="text" 
-              placeholder="Search concepts, topics or challenge titles..." 
-              className="search-input-v3"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-
-          <div className="sort-group">
-            <div className="sort-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="11" y1="5" x2="19" y2="5"></line>
-                <line x1="11" y1="12" x2="19" y2="12"></line>
-                <line x1="11" y1="19" x2="19" y2="19"></line>
-                <polyline points="3 16 6 19 9 16"></polyline>
-                <polyline points="3 8 6 5 9 8"></polyline>
-              </svg>
-              SORT
+        <header className={`top-bar ${activeTab === 'landing' ? 'landing-bar' : ''}`}>
+          {activeTab === 'landing' ? (
+            <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer', margin: 0 }}>
+              CODEQUEST <span>V3.0</span>
             </div>
-            {['Newest', 'Popularity'].map(s => (
-              <button 
-                key={s} 
-                className={`sort-pill ${sortBy === s ? 'active' : ''}`}
-                onClick={() => setSortBy(s)}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
+          ) : activeTab === 'problems' ? (
+            <>
+              <div className="search-wrapper">
+                <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input 
+                  type="text" 
+                  placeholder="Search concepts, topics or challenge titles..." 
+                  className="search-input-v3"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              <div className="sort-group">
+                <div className="sort-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="11" y1="5" x2="19" y2="5"></line>
+                    <line x1="11" y1="12" x2="19" y2="12"></line>
+                    <line x1="11" y1="19" x2="19" y2="19"></line>
+                    <polyline points="3 16 6 19 9 16"></polyline>
+                    <polyline points="3 8 6 5 9 8"></polyline>
+                  </svg>
+                  SORT
+                </div>
+                {['Newest', 'Popularity'].map(s => (
+                  <button 
+                    key={s} 
+                    className={`sort-pill ${sortBy === s ? 'active' : ''}`}
+                    onClick={() => setSortBy(s)}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div></div> // Spacer for other tabs like Profile if needed
+          )}
 
           <SimpleUserDropdown 
             user={user} 
