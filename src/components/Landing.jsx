@@ -84,11 +84,11 @@ const Landing = ({ onEnter }) => {
       <section className="powered-by">
         <h3>Powering Developers Across All Platforms</h3>
         <div className="platforms-logos">
-           <div className="p-logo">HackerRank</div>
-           <div className="p-logo">LeetCode</div>
-           <div className="p-logo">CodeChef</div>
-           <div className="p-logo">Codeforces</div>
-           <div className="p-logo">GeeksforGeeks</div>
+           <a href="https://www.hackerrank.com" target="_blank" rel="noreferrer" className="p-logo">HackerRank</a>
+           <a href="https://leetcode.com" target="_blank" rel="noreferrer" className="p-logo">LeetCode</a>
+           <a href="https://www.codechef.com" target="_blank" rel="noreferrer" className="p-logo">CodeChef</a>
+           <a href="https://codeforces.com" target="_blank" rel="noreferrer" className="p-logo">Codeforces</a>
+           <a href="https://www.geeksforgeeks.org" target="_blank" rel="noreferrer" className="p-logo">GeeksforGeeks</a>
         </div>
       </section>
 
