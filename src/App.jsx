@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import QuestionCard from './components/QuestionCard'
 import Login from './components/Login'
-import UserProfile from './components/UserProfile'
+import SimpleUserDropdown from './components/SimpleUserDropdown'
 
 const ITEMS_PER_PAGE = 24;
 
@@ -141,7 +141,6 @@ const App = () => {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <UserProfile user={user} onLogout={handleLogout} />
         
         <div className="sidebar-logo">
           CODEQUEST <span>V3.0</span>
@@ -228,6 +227,8 @@ const App = () => {
               </button>
             ))}
           </div>
+
+          <SimpleUserDropdown user={user} onLogout={handleLogout} />
         </header>
 
         <section className="grid-container">
