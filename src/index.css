@@ -1157,39 +1157,6 @@ body {
 .bar-item.medium .bar-fill { width: 55%; background: var(--accent-blue); box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
 .bar-item.hard .bar-fill { width: 25%; background: #fb923c; box-shadow: 0 0 15px rgba(251, 146, 60, 0.4); }
 
-/* --- HEATMAP STYLE --- */
-.activity-heatmap {
-  margin-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 2rem;
-}
-
-.heatmap-label {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #444;
-}
-
-.heatmap-grid {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-
-.hm-cell {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.hm-cell.level-1 { background: rgba(16, 185, 129, 0.2); }
-.hm-cell.level-2 { background: rgba(16, 185, 129, 0.4); }
-.hm-cell.level-3 { background: rgba(16, 185, 129, 0.7); }
-.hm-cell.level-4 { background: var(--accent-green); box-shadow: 0 0 5px var(--accent-green); }
 
 .alert-msg {
   padding: 1rem;

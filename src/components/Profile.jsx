@@ -230,18 +230,6 @@ const Profile = ({ user, token, onUpdateUser }) => {
                    </div>
                 </div>
               </div>
-
-              <div className="activity-heatmap">
-                 <div className="heatmap-label">
-                    <span>Recent Activity</span>
-                    <span>Last 4 Months</span>
-                 </div>
-                 <div className="heatmap-grid">
-                    {Array.from({ length: 52 }).map((_, i) => (
-                       <div key={i} className={`hm-cell level-${Math.floor(Math.random() * 5)}`}></div>
-                    ))}
-                 </div>
-              </div>
            </div>
         </div>
       </div>
