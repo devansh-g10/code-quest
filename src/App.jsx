@@ -3,6 +3,7 @@ import QuestionCard from './components/QuestionCard'
 import Login from './components/Login'
 import SimpleUserDropdown from './components/SimpleUserDropdown'
 import Contests from './components/Contests'
+import Profile from './components/Profile'
 import { LayoutGrid, Trophy, Terminal } from 'lucide-react'
 
 const ITEMS_PER_PAGE = 24;
@@ -64,6 +65,11 @@ const App = () => {
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+  };
+
+  const onUpdateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
   // Reset to page 1 on filter/search change
@@ -251,7 +257,11 @@ const App = () => {
             ))}
           </div>
 
-          <SimpleUserDropdown user={user} onLogout={handleLogout} />
+          <SimpleUserDropdown 
+            user={user} 
+            onLogout={handleLogout} 
+            onOpenProfile={() => setActiveTab('profile')} 
+          />
         </header>
 
         {activeTab === 'problems' ? (
@@ -320,8 +330,10 @@ const App = () => {
               </div>
             )}
           </section>
-        ) : (
+        ) : activeTab === 'contests' ? (
           <Contests />
+        ) : (
+          <Profile user={user} token={localStorage.getItem('token')} onUpdateUser={onUpdateUser} />
         )}
       </main>
     </div>

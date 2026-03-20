@@ -25,6 +25,20 @@ mongoose.connect(MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
+// --- AUTH MIDDLEWARE ---
+const authMiddleware = (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'Authentication required' });
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userData = { userId: decoded.userId };
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+};
+
 // --- ROUTES ---
 
 // 0. Get Questions
@@ -92,11 +106,51 @@ app.post('/api/login', async (req, res) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        bio: user.bio,
+        github: user.github,
+        leetcode: user.leetcode,
+        linkedin: user.linkedin,
         isPremium: user.isPremium
       }
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error during login' });
+  }
+});
+
+// 3. Update Profile
+app.put('/api/user/profile', authMiddleware, async (req, res) => {
+  try {
+    const { name, bio, avatar, github, leetcode, linkedin } = req.body;
+    const user = await User.findById(req.userData.userId);
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    if (name) user.name = name;
+    if (bio !== undefined) user.bio = bio;
+    if (avatar) user.avatar = avatar;
+    if (github !== undefined) user.github = github;
+    if (leetcode !== undefined) user.leetcode = leetcode;
+    if (linkedin !== undefined) user.linkedin = linkedin;
+
+    await user.save();
+
+    res.status(200).json({
+      message: 'Profile updated successfully',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        bio: user.bio,
+        github: user.github,
+        leetcode: user.leetcode,
+        linkedin: user.linkedin,
+        isPremium: user.isPremium
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating profile', error: error.message });
   }
 });
 

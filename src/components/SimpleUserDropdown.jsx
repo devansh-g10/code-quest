@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-const SimpleUserDropdown = ({ user, onLogout }) => {
+const SimpleUserDropdown = ({ user, onLogout, onOpenProfile }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -33,6 +33,14 @@ const SimpleUserDropdown = ({ user, onLogout }) => {
             <span className="dropdown-name">{user.name}</span>
             <span className="dropdown-email">{user.email}</span>
           </div>
+          <div className="dropdown-divider"></div>
+          <button className="dropdown-item" onClick={() => { onOpenProfile(); setIsOpen(false); }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            My Profile
+          </button>
           <div className="dropdown-divider"></div>
           <button className="dropdown-item signout" onClick={onLogout}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
