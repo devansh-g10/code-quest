@@ -224,9 +224,20 @@ const App = () => {
       <main className="main-content">
         <header className={`top-bar ${activeTab === 'landing' ? 'landing-bar' : ''}`}>
           {activeTab === 'landing' ? (
-            <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer', margin: 0 }}>
-              CODEQUEST <span>V3.0</span>
-            </div>
+            <>
+              <div style={{ flex: 1 }}></div> {/* Left Spacer */}
+              <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer', margin: 0 }}>
+                CODEQUEST <span>V3.0</span>
+              </div>
+              <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                <SimpleUserDropdown 
+                  user={user} 
+                  onLogout={handleLogout} 
+                  onOpenProfile={() => setActiveTab('profile')} 
+                  onOpenDashboard={() => setActiveTab('problems')}
+                />
+              </div>
+            </>
           ) : activeTab === 'problems' ? (
             <>
               <div className="search-wrapper">
@@ -264,17 +275,23 @@ const App = () => {
                   </button>
                 ))}
               </div>
+              <SimpleUserDropdown 
+                user={user} 
+                onLogout={handleLogout} 
+                onOpenProfile={() => setActiveTab('profile')} 
+                onOpenDashboard={() => setActiveTab('problems')}
+              />
             </>
           ) : (
-            <div></div> // Spacer for other tabs like Profile if needed
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+              <SimpleUserDropdown 
+                user={user} 
+                onLogout={handleLogout} 
+                onOpenProfile={() => setActiveTab('profile')} 
+                onOpenDashboard={() => setActiveTab('problems')}
+              />
+            </div>
           )}
-
-          <SimpleUserDropdown 
-            user={user} 
-            onLogout={handleLogout} 
-            onOpenProfile={() => setActiveTab('profile')} 
-            onOpenDashboard={() => setActiveTab('problems')}
-          />
         </header>
 
         {activeTab === 'landing' ? (

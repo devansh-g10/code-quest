@@ -1397,9 +1397,17 @@ body {
   top: 0;
   z-index: 1000;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .top-bar.landing-bar .sidebar-logo {
-  font-size: 1.5rem;
-  font-weight: 900;
+  font-size: 2.2rem;
+  font-weight: 950;
+  letter-spacing: -0.5px;
+}
+
+.simple-dropdown-wrapper {
+  position: relative;
 }
