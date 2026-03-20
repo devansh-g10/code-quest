@@ -103,30 +103,22 @@ app.post('/api/login', async (req, res) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import { exec } from 'child_process';
+
 // TEMPORARY SEED ROUTE
-app.get('/api/seed', async (req, res) => {
-  try {
-    await Question.deleteMany({});
-    const jsonPath = path.join(__dirname, '../src/data/questions.json');
-    const existingQuestions = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-    await Question.insertMany(existingQuestions);
+app.get('/api/seed', (req, res) => {
+  const seedScriptPath = path.join(__dirname, 'seed.js');
+  
+  exec(`node ${seedScriptPath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing seed script: ${error}`);
+      return res.status(500).json({ error: 'Seed failed', details: error.message });
+    }
+    console.log(`Seed stdout: ${stdout}`);
+    if (stderr) console.error(`Seed stderr: ${stderr}`);
     
-    const hrQuestions = [
-      { title: "Staircase", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/staircase/problem", tags: ["Basic"], likes: 43210 },
-      { title: "Grading Students", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/grading/problem", tags: ["Implementation"], likes: 32100 },
-      { title: "Apple and Orange", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/apple-and-orange/problem", tags: ["Implementation"], likes: 29870 },
-      { title: "Number Line Jumps", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/kangaroo/problem", tags: ["Implementation"], likes: 27650 },
-      { title: "Between Two Sets", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/between-two-sets/problem", tags: ["Implementation"], likes: 25430 },
-      { title: "Breaking the Records", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/breaking-best-and-worst-records/problem", tags: ["Implementation"], likes: 24320 },
-      { title: "Subarray Division", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/the-birthday-bar/problem", tags: ["Implementation"], likes: 23210 },
-      { title: "Divisible Sum Pairs", platform: "HackerRank", difficulty: "Easy", link: "https://www.hackerrank.com/challenges/divisible-sum-pairs/problem", tags: ["Implementation"], likes: 22100 }
-    ];
-    await Question.insertMany(hrQuestions);
-    
-    res.json({ message: "Cloud DB Seeded Successfully! " + existingQuestions.length });
-  } catch(err) {
-    res.status(500).json({ error: err.message });
-  }
+    res.json({ message: "Cloud DB Seeded Successfully with all platforms!" });
+  });
 });
 
 app.listen(PORT, () => {
