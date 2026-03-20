@@ -3,6 +3,10 @@ import { ArrowRight, Code, Trophy, Zap, Users, ShieldCheck, Mail, Github, Linked
 const Landing = ({ onEnter }) => {
   return (
     <div className="landing-page animate-v3">
+      {/* Background Layer */}
+      <div className="bg-float-dots"></div>
+      <div className="bg-glow-orb orb-1"></div>
+      <div className="bg-glow-orb orb-2"></div>
       {/* Hero Section */}
       <section className="hero-landing">
         <div className="hero-content">
