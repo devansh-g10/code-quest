@@ -145,7 +145,7 @@ const Profile = ({ user, token, onUpdateUser }) => {
            <h3 className="section-title-alt"><Globe size={18} /> Social Links</h3>
            <div className="social-links-list">
               <div className="social-link-item">
-                 <Github size={18} className="social-icon" />
+                 <div className="icon-box github"><Github size={20} /></div>
                  {isEditing ? (
                     <input 
                       type="text" 
@@ -155,12 +155,12 @@ const Profile = ({ user, token, onUpdateUser }) => {
                     />
                  ) : (
                     <a href={user.github} target="_blank" rel="noreferrer" className={user.github ? 'active' : 'inactive'}>
-                      {user.github ? 'GitHub Profile' : 'Not Linked'} <ExternalLink size={12} />
+                      {user.github ? 'GitHub Profile' : 'Not Linked'}
                     </a>
                  )}
               </div>
               <div className="social-link-item">
-                 <Code2 size={18} className="social-icon" />
+                 <div className="icon-box leetcode"><Code2 size={20} /></div>
                  {isEditing ? (
                     <input 
                       type="text" 
@@ -170,12 +170,12 @@ const Profile = ({ user, token, onUpdateUser }) => {
                     />
                  ) : (
                     <a href={user.leetcode} target="_blank" rel="noreferrer" className={user.leetcode ? 'active' : 'inactive'}>
-                      {user.leetcode ? 'LeetCode Profile' : 'Not Linked'} <ExternalLink size={12} />
+                      {user.leetcode ? 'LeetCode Profile' : 'Not Linked'}
                     </a>
                  )}
               </div>
               <div className="social-link-item">
-                 <Linkedin size={18} className="social-icon" />
+                 <div className="icon-box linkedin"><Linkedin size={20} /></div>
                  {isEditing ? (
                     <input 
                       type="text" 
@@ -185,7 +185,7 @@ const Profile = ({ user, token, onUpdateUser }) => {
                     />
                  ) : (
                     <a href={user.linkedin} target="_blank" rel="noreferrer" className={user.linkedin ? 'active' : 'inactive'}>
-                      {user.linkedin ? 'LinkedIn Profile' : 'Not Linked'} <ExternalLink size={12} />
+                      {user.linkedin ? 'LinkedIn Profile' : 'Not Linked'}
                     </a>
                  )}
               </div>
