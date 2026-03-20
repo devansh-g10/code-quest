@@ -151,9 +151,8 @@ const App = () => {
   return (
     <div className="app-shell">
       <aside className="sidebar animate-v3">
-        <div className="logo-section" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer' }}>
-          <h1 className="logo-text">CODEQUEST</h1>
-          <span className="version-pill">V3.0</span>
+        <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer' }}>
+          CODEQUEST <span>V3.0</span>
         </div>
 
         <nav>
