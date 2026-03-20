@@ -103,10 +103,10 @@ const Landing = ({ onEnter }) => {
              <h2>Devansh Maheshwari</h2>
              <p>A passionate full-stack developer and competitive programmer building tools that empower the next generation of engineers.</p>
              <div className="creator-links">
-               <a href="#"><Github size={20} /></a>
-               <a href="#"><Linkedin size={20} /></a>
-               <a href="#"><Globe size={20} /></a>
-               <a href="#"><Mail size={20} /></a>
+               <a href="https://github.com/devansh-g10" target="_blank" rel="noreferrer"><Github size={20} /></a>
+               <a href="https://www.linkedin.com/in/devansh-maheshwari-59b46a219/" target="_blank" rel="noreferrer"><Linkedin size={20} /></a>
+               <a href="https://devanshmaheshwari.com" target="_blank" rel="noreferrer"><Globe size={20} /></a>
+               <a href="mailto:devanshmaheshwari3011@gmail.com"><Mail size={20} /></a>
              </div>
            </div>
         </div>
