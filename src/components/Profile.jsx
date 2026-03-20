@@ -197,7 +197,7 @@ const Profile = ({ user, token, onUpdateUser }) => {
 
         <div className="profile-section-card">
            <h3 className="section-title-alt">
-             <div className="title-icon-box"><Code2 size={18} /></div> 
+             <div className="title-icon-box"><Code2 size={20} /></div> 
              Coding Stats
            </h3>
            <div className="coding-stats-placeholder">
@@ -209,26 +209,38 @@ const Profile = ({ user, token, onUpdateUser }) => {
                 <div className="stat-bars-column">
                    <div className="bar-item easy">
                       <div className="bar-label-row">
-                         <span className="bl-name">Easy</span>
+                         <span className="bl-name">Easy Problems</span>
                          <span className="bl-count">964 / 4087</span>
                       </div>
                       <div className="bar-bg"><div className="bar-fill"></div></div>
                    </div>
                    <div className="bar-item medium">
                       <div className="bar-label-row">
-                         <span className="bl-name">Medium</span>
+                         <span className="bl-name">Medium Problems</span>
                          <span className="bl-count">2208 / 4087</span>
                       </div>
                       <div className="bar-bg"><div className="bar-fill"></div></div>
                    </div>
                    <div className="bar-item hard">
                       <div className="bar-label-row">
-                         <span className="bl-name">Hard</span>
+                         <span className="bl-name">Hard Problems</span>
                          <span className="bl-count">915 / 4087</span>
                       </div>
                       <div className="bar-bg"><div className="bar-fill"></div></div>
                    </div>
                 </div>
+              </div>
+
+              <div className="activity-heatmap">
+                 <div className="heatmap-label">
+                    <span>Recent Activity</span>
+                    <span>Last 4 Months</span>
+                 </div>
+                 <div className="heatmap-grid">
+                    {Array.from({ length: 52 }).map((_, i) => (
+                       <div key={i} className={`hm-cell level-${Math.floor(Math.random() * 5)}`}></div>
+                    ))}
+                 </div>
               </div>
            </div>
         </div>

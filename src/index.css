@@ -1074,85 +1074,122 @@ body {
 .coding-stats-placeholder {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
 .stats-hero-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 180px 1fr;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .stat-circle-p {
-  flex-shrink: 0;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  border: 4px solid rgba(16, 185, 129, 0.05);
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 80%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
 }
 
-.stat-circle-p::before {
+.stat-circle-p::after {
   content: '';
   position: absolute;
-  top: -4px; left: -4px; right: -4px; bottom: -4px;
+  top: 10px; left: 10px; right: 10px; bottom: 10px;
   border-radius: 50%;
-  border: 4px solid var(--accent-green);
-  border-top-color: transparent;
-  border-right-color: transparent;
-  animation: rotate 3s linear infinite;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.05);
 }
 
-.sc-val { font-size: 2rem; font-weight: 950; color: white; line-height: 1; }
-.sc-label { font-size: 0.75rem; color: #555; font-weight: 800; letter-spacing: 2px; margin-top: 5px; }
+.sc-val { font-size: 2.8rem; font-weight: 900; color: white; line-height: 1; letter-spacing: -1px; }
+.sc-label { font-size: 0.8rem; color: #444; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-family: 'Inter', sans-serif; }
 
 .stat-bars-column {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.8rem;
 }
 
 .bar-item {
-  width: 100%;
+  position: relative;
 }
 
 .bar-label-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 0.85rem;
-  font-weight: 800;
+  margin-bottom: 12px;
+  align-items: flex-end;
 }
 
-.bl-name { color: #888; }
-.bl-count { color: white; }
+.bl-name { font-size: 0.9rem; font-weight: 800; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+.bl-count { font-size: 1.1rem; font-weight: 900; color: white; }
 
 .bar-bg {
-  width: 100%;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 10px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   overflow: hidden;
-  position: relative;
+  padding: 2px;
 }
 
 .bar-fill {
   height: 100%;
-  border-radius: 10px;
+  border-radius: 20px;
+  transition: width 1s ease-out;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
   position: relative;
-  box-shadow: 0 0 10px currentColor;
 }
 
-.bar-item.easy .bar-fill { width: 45%; background: var(--accent-green); color: var(--accent-green); }
-.bar-item.medium .bar-fill { width: 68%; background: var(--accent-blue); color: var(--accent-blue); }
-.bar-item.hard .bar-fill { width: 32%; background: #fb923c; color: #fb923c; }
+.bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+}
+
+.bar-item.easy .bar-fill { width: 35%; background: var(--accent-green); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+.bar-item.medium .bar-fill { width: 55%; background: var(--accent-blue); box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+.bar-item.hard .bar-fill { width: 25%; background: #fb923c; box-shadow: 0 0 15px rgba(251, 146, 60, 0.4); }
+
+/* --- HEATMAP STYLE --- */
+.activity-heatmap {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 2rem;
+}
+
+.heatmap-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #444;
+}
+
+.heatmap-grid {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.hm-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.hm-cell.level-1 { background: rgba(16, 185, 129, 0.2); }
+.hm-cell.level-2 { background: rgba(16, 185, 129, 0.4); }
+.hm-cell.level-3 { background: rgba(16, 185, 129, 0.7); }
+.hm-cell.level-4 { background: var(--accent-green); box-shadow: 0 0 5px var(--accent-green); }
 
 .alert-msg {
   padding: 1rem;
