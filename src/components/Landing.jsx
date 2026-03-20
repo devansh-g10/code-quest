@@ -96,7 +96,7 @@ const Landing = ({ onEnter }) => {
       <section className="creator-section">
         <div className="creator-card">
            <div className="creator-image">
-             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Devansh Maheshwari" />
+             <img src="/devansh.png" alt="Devansh Maheshwari" />
            </div>
            <div className="creator-text">
              <h4>The Visionary Behind CodeQuest</h4>
@@ -105,7 +105,6 @@ const Landing = ({ onEnter }) => {
              <div className="creator-links">
                <a href="https://github.com/devansh-g10" target="_blank" rel="noreferrer"><Github size={20} /></a>
                <a href="https://www.linkedin.com/in/devansh-maheshwari-59b46a219/" target="_blank" rel="noreferrer"><Linkedin size={20} /></a>
-               <a href="https://devanshmaheshwari.com" target="_blank" rel="noreferrer"><Globe size={20} /></a>
                <a href="mailto:devanshmaheshwari3011@gmail.com"><Mail size={20} /></a>
              </div>
            </div>
