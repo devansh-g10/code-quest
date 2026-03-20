@@ -4,6 +4,7 @@ import Login from './components/Login'
 import SimpleUserDropdown from './components/SimpleUserDropdown'
 import Contests from './components/Contests'
 import Profile from './components/Profile'
+import Landing from './components/Landing'
 import { LayoutGrid, Trophy, Terminal } from 'lucide-react'
 
 const ITEMS_PER_PAGE = 24;
@@ -11,6 +12,7 @@ const ITEMS_PER_PAGE = 24;
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [activeTab, setActiveTab] = useState('landing');
   const [token, setToken] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +23,6 @@ const App = () => {
   const [premiumFilter, setPremiumFilter] = useState('All');
   const [sortBy, setSortBy] = useState('Newest');
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState('problems');
 
   const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -261,10 +262,13 @@ const App = () => {
             user={user} 
             onLogout={handleLogout} 
             onOpenProfile={() => setActiveTab('profile')} 
+            onOpenDashboard={() => setActiveTab('problems')}
           />
         </header>
 
-        {activeTab === 'problems' ? (
+        {activeTab === 'landing' ? (
+          <Landing onEnter={() => setActiveTab(isLoggedIn ? 'problems' : 'login')} />
+        ) : activeTab === 'problems' ? (
           <section className="grid-container">
             <div className="stats-grid animate-v3">
               <div className="stat-card">

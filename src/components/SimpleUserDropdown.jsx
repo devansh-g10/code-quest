@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 
-const SimpleUserDropdown = ({ user, onLogout, onOpenProfile }) => {
+const SimpleUserDropdown = ({ user, onLogout, onOpenProfile, onOpenDashboard }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -14,10 +15,8 @@ const SimpleUserDropdown = ({ user, onLogout, onOpenProfile }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (!user) return null;
-
   return (
-    <div className="simple-dropdown-container" ref={dropdownRef}>
+    <div className="simple-dropdown-wrapper" ref={dropdownRef}>
       <button 
         className="avatar-trigger" 
         onClick={() => setIsOpen(!isOpen)}
@@ -38,6 +37,15 @@ const SimpleUserDropdown = ({ user, onLogout, onOpenProfile }) => {
             <span className="dropdown-email">{user.email}</span>
           </div>
           <div className="dropdown-divider"></div>
+          <button className="dropdown-item" onClick={() => { onOpenDashboard(); setIsOpen(false); }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Dashboard
+          </button>
           <button className="dropdown-item" onClick={() => { onOpenProfile(); setIsOpen(false); }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>

@@ -1170,3 +1170,198 @@ body {
 .alert-msg.error { background: rgba(239, 68, 68, 0.1); color: var(--accent-red); border: 1px solid rgba(239, 68, 68, 0.2); }
 
 
+/* --- LANDING PAGE --- */
+.landing-page {
+  background: var(--bg-dark);
+  color: white;
+  overflow-x: hidden;
+}
+
+.hero-landing {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 5rem;
+  gap: 5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.platform-tag {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-blue);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.hero-title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #888;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 550px;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 20px;
+}
+
+.btn-primary-large {
+  background: var(--accent-blue);
+  color: white;
+  padding: 18px 36px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.btn-primary-large:hover {
+  border: none;
+  background: var(--accent-blue);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary-large {
+  background: rgba(255, 255, 255, 0.03);
+  color: #ccc;
+  padding: 18px 36px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.hero-visual {
+  flex: 1;
+}
+
+.visual-card {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transform: rotate3d(1, 1, 1, 5deg);
+}
+
+.vc-header {
+  background: rgba(255,255,255,0.03);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vc-dots { display: flex; gap: 6px; }
+.vc-dots span { width: 10px; height: 10px; border-radius: 50%; background: #444; }
+.vc-dots span:nth-child(1) { background: #ff5f56; }
+.vc-dots span:nth-child(2) { background: #ffbd2e; }
+.vc-dots span:nth-child(3) { background: #27c93f; }
+.vc-title { font-size: 0.8rem; color: #555; font-weight: 600; }
+
+.vc-body { font-family: 'Fira Code', monospace; padding: 2rem; color: #888; font-size: 0.9rem; }
+.vc-body code { color: #ccc; }
+
+.stats-landing {
+  background: rgba(255,255,255,0.01);
+  padding: 4rem;
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.stat-box-l { display: flex; flex-direction: column; align-items: center; }
+.sl-val { font-size: 3rem; font-weight: 900; color: white; margin-bottom: 8px; }
+.sl-label { font-size: 0.9rem; color: #555; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+
+.features-landing { padding: 8rem 5rem; max-width: 1400px; margin: 0 auto; text-align: center; }
+.section-title-l { font-size: 3rem; font-weight: 900; margin-bottom: 5rem; }
+
+.features-grid-l { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.feature-card-l {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  padding: 3rem 2rem;
+  border-radius: 24px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.feature-card-l:hover { border-color: var(--accent-blue); transform: translateY(-10px); }
+.fc-icon { 
+  width: 60px; height: 60px; background: rgba(59, 130, 246, 0.1); 
+  border-radius: 16px; margin: 0 auto 2rem; display: flex; align-items: center; 
+  justify-content: center; color: var(--accent-blue); 
+}
+.feature-card-l h3 { font-size: 1.25rem; margin-bottom: 1rem; }
+.feature-card-l p { font-size: 0.95rem; color: #666; line-height: 1.6; }
+
+.powered-by { padding: 5rem; text-align: center; background: rgba(255,255,255,0.01); }
+.powered-by h3 { font-size: 0.8rem; text-transform: uppercase; color: #444; letter-spacing: 3px; font-weight: 800; margin-bottom: 3rem; }
+.platforms-logos { display: flex; justify-content: center; gap: 5rem; opacity: 0.4; }
+.p-logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
+
+.creator-section { padding: 8rem 5rem; }
+.creator-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #111 0%, #000 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  padding: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.creator-image { width: 140px; height: 140px; border-radius: 20px; overflow: hidden; flex-shrink: 0; box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+.creator-image img { width: 100%; height: 100%; object-fit: cover; }
+.creator-text h4 { color: var(--accent-blue); font-size: 0.9rem; font-weight: 800; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 2px; }
+.creator-text h2 { font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem; }
+.creator-text p { font-size: 1.1rem; color: #777; line-height: 1.6; margin-bottom: 2rem; }
+.creator-links { display: flex; gap: 20px; }
+.creator-links a { width: 45px; height: 45px; border-radius: 12px; background: rgba(255,255,255,0.05); color: #888; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+.creator-links a:hover { background: var(--accent-blue); color: white; transform: translateY(-3px); }
+
+.landing-footer { padding: 5rem; border-top: 1px solid var(--border-color); text-align: center; }
+.footer-logo { font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: 1px; }
+.footer-logo span { background: var(--accent-blue); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; vertical-align: middle; margin-left: 10px; }
+.landing-footer p { font-size: 0.9rem; color: #444; font-weight: 600; }
