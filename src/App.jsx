@@ -1,7 +1,8 @@
-import { useState, useMemo, useEffect } from 'react'
 import QuestionCard from './components/QuestionCard'
 import Login from './components/Login'
 import SimpleUserDropdown from './components/SimpleUserDropdown'
+import Contests from './components/Contests'
+import { LayoutGrid, Trophy, Terminal } from 'lucide-react'
 
 const ITEMS_PER_PAGE = 24;
 
@@ -18,6 +19,7 @@ const App = () => {
   const [premiumFilter, setPremiumFilter] = useState('All');
   const [sortBy, setSortBy] = useState('Newest');
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState('problems');
 
   const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -148,6 +150,26 @@ const App = () => {
 
         <nav>
           <div className="filter-section">
+            <h4 className="filter-section-title">General</h4>
+            <button 
+              className={`sidebar-btn ${activeTab === 'problems' ? 'active' : ''}`}
+              onClick={() => setActiveTab('problems')}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Terminal size={18} /> Problems
+              </span>
+            </button>
+            <button 
+              className={`sidebar-btn ${activeTab === 'contests' ? 'active' : ''}`}
+              onClick={() => setActiveTab('contests')}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Trophy size={18} /> Contests
+              </span>
+            </button>
+          </div>
+
+          <div className="filter-section">
             <h4 className="filter-section-title">Platforms</h4>
             <SidebarButton label="All Platforms" value="All" current={platformFilter} onClick={setPlatformFilter} count={stats.total} />
             {[...new Set(questions.map(q => q.platform))].map(p => (
@@ -231,71 +253,75 @@ const App = () => {
           <SimpleUserDropdown user={user} onLogout={handleLogout} />
         </header>
 
-        <section className="grid-container">
-          <div className="stats-grid animate-v3">
-            <div className="stat-card">
-              <span className="stat-card-label">Matching Library</span>
-              <span className="stat-card-value" style={{ color: 'var(--accent-blue)' }}>{stats.filtered}</span>
+        {activeTab === 'problems' ? (
+          <section className="grid-container">
+            <div className="stats-grid animate-v3">
+              <div className="stat-card">
+                <span className="stat-card-label">Matching Library</span>
+                <span className="stat-card-value" style={{ color: 'var(--accent-blue)' }}>{stats.filtered}</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-card-label">Global Questions</span>
+                <span className="stat-card-value">{stats.total}</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-card-label">Premium Challenges</span>
+                <span className="stat-card-value" style={{ color: 'gold' }}>{stats.premium}</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-card-label">Success Rate</span>
+                <span className="stat-card-value" style={{ color: 'var(--accent-green)' }}>+84%</span>
+              </div>
             </div>
-            <div className="stat-card">
-              <span className="stat-card-label">Global Questions</span>
-              <span className="stat-card-value">{stats.total}</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-card-label">Premium Challenges</span>
-              <span className="stat-card-value" style={{ color: 'gold' }}>{stats.premium}</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-card-label">Success Rate</span>
-              <span className="stat-card-value" style={{ color: 'var(--accent-green)' }}>+84%</span>
-            </div>
-          </div>
 
-          <div className="q-grid">
-            {currentQuestions.length > 0 ? (
-              currentQuestions.map((q, idx) => (
-                <QuestionCard key={`${q.id}-${idx}`} question={q} />
-              ))
-            ) : (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '10rem 0' }}>
-                <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>No Challenges Found</h2>
-                <p style={{ color: 'var(--text-muted)' }}>Try adjusting your sidebar filters or search query.</p>
+            <div className="q-grid">
+              {currentQuestions.length > 0 ? (
+                currentQuestions.map((q, idx) => (
+                  <QuestionCard key={`${q.id}-${idx}`} question={q} />
+                ))
+              ) : (
+                <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '10rem 0' }}>
+                  <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>No Challenges Found</h2>
+                  <p style={{ color: 'var(--text-muted)' }}>Try adjusting your sidebar filters or search query.</p>
+                </div>
+              )}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="pagination" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem', marginTop: '6rem', paddingBottom: '4rem' }}>
+                <button 
+                  className="sidebar-btn" 
+                  style={{ width: 'auto', padding: '0.8rem 2rem' }}
+                  onClick={() => {
+                    setCurrentPage(prev => Math.max(prev - 1, 1));
+                    const mainContent = document.querySelector('.main-content');
+                    if (mainContent) mainContent.scrollTop = 0;
+                  }}
+                >
+                  ← Previous
+                </button>
+                
+                <span style={{ color: 'var(--text-muted)', fontWeight: '700' }}>
+                   {currentPage} <span style={{ opacity: 0.3 }}>/</span> {totalPages}
+                </span>
+                
+                <button 
+                  className="sidebar-btn" 
+                  style={{ width: 'auto', padding: '0.8rem 2rem' }}
+                  onClick={() => {
+                    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                    const mainContent = document.querySelector('.main-content');
+                    if (mainContent) mainContent.scrollTop = 0;
+                  }}
+                >
+                  Next →
+                </button>
               </div>
             )}
-          </div>
-
-          {totalPages > 1 && (
-            <div className="pagination" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem', marginTop: '6rem', paddingBottom: '4rem' }}>
-              <button 
-                className="sidebar-btn" 
-                style={{ width: 'auto', padding: '0.8rem 2rem' }}
-                onClick={() => {
-                  setCurrentPage(prev => Math.max(prev - 1, 1));
-                  const mainContent = document.querySelector('.main-content');
-                  if (mainContent) mainContent.scrollTop = 0;
-                }}
-              >
-                ← Previous
-              </button>
-              
-              <span style={{ color: 'var(--text-muted)', fontWeight: '700' }}>
-                 {currentPage} <span style={{ opacity: 0.3 }}>/</span> {totalPages}
-              </span>
-              
-              <button 
-                className="sidebar-btn" 
-                style={{ width: 'auto', padding: '0.8rem 2rem' }}
-                onClick={() => {
-                  setCurrentPage(prev => Math.min(prev + 1, totalPages));
-                  const mainContent = document.querySelector('.main-content');
-                  if (mainContent) mainContent.scrollTop = 0;
-                }}
-              >
-                Next →
-              </button>
-            </div>
-          )}
-        </section>
+          </section>
+        ) : (
+          <Contests />
+        )}
       </main>
     </div>
   )
