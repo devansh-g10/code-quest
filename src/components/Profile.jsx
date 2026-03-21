@@ -81,7 +81,9 @@ const Profile = ({ user, token, onUpdateUser }) => {
       onUpdateUser(data.user);
       setIsEditing(false);
       setMessage({ type: 'success', text: 'Profile updated successfully' });
-      fetchPlatformStats();
+      
+      // TRIGGER RE-FETCH IMMEDIATELY after save for "instant" feel
+      setTimeout(() => fetchPlatformStats(), 200); 
     } catch (err) {
       setMessage({ type: 'error', text: err.message });
     } finally {
