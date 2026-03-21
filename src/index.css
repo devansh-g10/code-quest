@@ -1746,3 +1746,134 @@ body {
 .hr-border { border-left: 4px solid #2ec866; }
 .gfg-border { border-left: 4px solid #2f8d46; }
 
+
+/* --- PREMIUM PROFILE UPGRADE (v3.0) --- */
+.profile-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  background: #050505;
+}
+
+.profile-hero-v3 {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 40px;
+  padding: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.profile-hero-main {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.avatar-xl-wrapper {
+  position: relative;
+}
+
+.avatar-xl {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--accent-blue);
+  box-shadow: 0 0 50px rgba(59, 130, 246, 0.3);
+}
+
+.premium-display-name {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -2px;
+  margin-bottom: 0.5rem;
+}
+
+.premium-email-tag {
+  color: var(--text-muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.premium-bio-text {
+  font-size: 1.1rem;
+  color: #ccc;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.profile-hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+.hero-stat-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.pill-val {
+  color: gold;
+  font-weight: 900;
+  font-size: 1.5rem;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 4px 16px;
+  border-radius: 100px;
+}
+
+.pill-lbl {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.premium-action-btn {
+  background: white;
+  color: black;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 100px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.premium-action-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.premium-action-btn.edit { background: var(--accent-blue); color: white; }
+
+.premium-input-name, .premium-input-bio {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  font-family: inherit;
+}
+.premium-input-name { font-size: 2.5rem; font-weight: 900; }
+.premium-input-bio { height: 120px; font-size: 1rem; }
+
