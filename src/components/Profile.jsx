@@ -22,10 +22,22 @@ const Profile = ({ user, token, onUpdateUser }) => {
     avatar: user.avatar || '',
     github: user.github || '',
     leetcode: user.leetcode || '',
+    hackerrank: user.hackerrank || '',
+    codeforces: user.codeforces || '',
+    codechef: user.codechef || '',
+    geeksforgeeks: user.geeksforgeeks || '',
     linkedin: user.linkedin || ''
   });
 
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [stats, setStats] = useState({
+    leetcode: null,
+    hackerrank: null,
+    codeforces: null,
+    codechef: null,
+    geeksforgeeks: null,
+    loading: false
+  });
 
   const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -56,6 +68,66 @@ const Profile = ({ user, token, onUpdateUser }) => {
       setLoading(false);
     }
   };
+
+  const fetchPlatformStats = async () => {
+    if (!user.leetcode && !user.codeforces && !user.codechef) return;
+    
+    setStats(prev => ({ ...prev, loading: true }));
+    
+    try {
+      const results = { leetcode: null, hackerrank: null, codeforces: null, codechef: null, geeksforgeeks: null };
+
+      // LC Sync
+      if (user.leetcode) {
+        try {
+          const res = await fetch(`https://leetcode-stats-api.herokuapp.com/${user.leetcode}`);
+          if (res.ok) results.leetcode = await res.json();
+        } catch (e) { console.error("LC Error:", e); }
+      }
+
+      // CF Sync
+      if (user.codeforces) {
+        try {
+          const res = await fetch(`https://codeforces.com/api/user.info?handles=${user.codeforces}`);
+          const data = await res.json();
+          if (data.status === 'OK') results.codeforces = data.result[0];
+        } catch (e) { console.error("CF Error:", e); }
+      }
+
+      // CC Sync
+      if (user.codechef) {
+        try {
+          const res = await fetch(`https://codechef-api.vercel.app/${user.codechef}`);
+          if (res.ok) results.codechef = await res.json();
+        } catch (e) { console.error("CC Error:", e); }
+      }
+
+      setStats({ ...results, loading: false });
+
+      // Persist these to backend and get verified stats back
+      try {
+        const syncRes = await fetch(`${API_BASE}/user/sync-stats`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const syncData = await syncRes.json();
+        
+        if (syncRes.ok && syncData.stats) {
+          onUpdateUser({ ...user, stats: syncData.stats });
+        }
+      } catch (e) { console.error("Stats persist failed", e); }
+
+    } catch (err) {
+      console.error("Stats Fetch Error:", err);
+      setStats(prev => ({ ...prev, loading: false }));
+    }
+  };
+
+  useEffect(() => {
+    fetchPlatformStats();
+  }, [user.leetcode, user.hackerrank, user.codeforces, user.codechef, user.geeksforgeeks]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -167,13 +239,73 @@ const Profile = ({ user, token, onUpdateUser }) => {
                  {isEditing ? (
                     <input 
                       type="text" 
-                      placeholder="LeetCode URL" 
+                      placeholder="LeetCode Handle" 
                       value={formData.leetcode}
                       onChange={(e) => setFormData({...formData, leetcode: e.target.value})}
                     />
                  ) : (
-                    <a href={user.leetcode} target="_blank" rel="noreferrer" className={user.leetcode ? 'active' : 'inactive'}>
-                      {user.leetcode ? 'LeetCode Profile' : 'Not Linked'}
+                    <a href={user.leetcode ? `https://leetcode.com/${user.leetcode}` : '#'} target="_blank" rel="noreferrer" className={user.leetcode ? 'active' : 'inactive'}>
+                      {user.leetcode ? `@${user.leetcode}` : 'Not Linked'}
+                    </a>
+                 )}
+              </div>
+              <div className="social-link-item">
+                 <div className="icon-box hackerrank"><div className="hr-icon">HR</div></div>
+                 {isEditing ? (
+                    <input 
+                      type="text" 
+                      placeholder="HackerRank Handle" 
+                      value={formData.hackerrank}
+                      onChange={(e) => setFormData({...formData, hackerrank: e.target.value})}
+                    />
+                 ) : (
+                    <a href={user.hackerrank ? `https://www.hackerrank.com/${user.hackerrank}` : '#'} target="_blank" rel="noreferrer" className={user.hackerrank ? 'active' : 'inactive'}>
+                      {user.hackerrank ? `@${user.hackerrank}` : 'Not Linked'}
+                    </a>
+                 )}
+              </div>
+              <div className="social-link-item">
+                 <div className="icon-box codeforces"><div className="cf-icon">CF</div></div>
+                 {isEditing ? (
+                    <input 
+                      type="text" 
+                      placeholder="Codeforces Handle" 
+                      value={formData.codeforces}
+                      onChange={(e) => setFormData({...formData, codeforces: e.target.value})}
+                    />
+                 ) : (
+                    <a href={user.codeforces ? `https://codeforces.com/profile/${user.codeforces}` : '#'} target="_blank" rel="noreferrer" className={user.codeforces ? 'active' : 'inactive'}>
+                      {user.codeforces ? `@${user.codeforces}` : 'Not Linked'}
+                    </a>
+                 )}
+              </div>
+              <div className="social-link-item">
+                 <div className="icon-box codechef"><div className="cc-icon">Chef</div></div>
+                 {isEditing ? (
+                    <input 
+                      type="text" 
+                      placeholder="CodeChef Handle" 
+                      value={formData.codechef}
+                      onChange={(e) => setFormData({...formData, codechef: e.target.value})}
+                    />
+                 ) : (
+                    <a href={user.codechef ? `https://www.codechef.com/users/${user.codechef}` : '#'} target="_blank" rel="noreferrer" className={user.codechef ? 'active' : 'inactive'}>
+                      {user.codechef ? `@${user.codechef}` : 'Not Linked'}
+                    </a>
+                 )}
+              </div>
+              <div className="social-link-item">
+                 <div className="icon-box geeksforgeeks"><div className="gfg-icon">GFG</div></div>
+                 {isEditing ? (
+                    <input 
+                      type="text" 
+                      placeholder="GFG Handle" 
+                      value={formData.geeksforgeeks}
+                      onChange={(e) => setFormData({...formData, geeksforgeeks: e.target.value})}
+                    />
+                 ) : (
+                    <a href={user.geeksforgeeks ? `https://auth.geeksforgeeks.org/user/${user.geeksforgeeks}` : '#'} target="_blank" rel="noreferrer" className={user.geeksforgeeks ? 'active' : 'inactive'}>
+                      {user.geeksforgeeks ? `@${user.geeksforgeeks}` : 'Not Linked'}
                     </a>
                  )}
               </div>
@@ -200,37 +332,84 @@ const Profile = ({ user, token, onUpdateUser }) => {
              <div className="title-icon-box"><Code2 size={20} /></div> 
              Coding Stats
            </h3>
-           <div className="coding-stats-placeholder">
-              <div className="stats-hero-row">
-                <div className="stat-circle-p">
-                  <span className="sc-val">4087</span>
-                  <span className="sc-label">Solved</span>
-                </div>
-                <div className="stat-bars-column">
-                   <div className="bar-item easy">
-                      <div className="bar-label-row">
-                         <span className="bl-name">Easy Problems</span>
-                         <span className="bl-count">964 / 4087</span>
-                      </div>
-                      <div className="bar-bg"><div className="bar-fill"></div></div>
-                   </div>
-                   <div className="bar-item medium">
-                      <div className="bar-label-row">
-                         <span className="bl-name">Medium Problems</span>
-                         <span className="bl-count">2208 / 4087</span>
-                      </div>
-                      <div className="bar-bg"><div className="bar-fill"></div></div>
-                   </div>
-                   <div className="bar-item hard">
-                      <div className="bar-label-row">
-                         <span className="bl-name">Hard Problems</span>
-                         <span className="bl-count">915 / 4087</span>
-                      </div>
-                      <div className="bar-bg"><div className="bar-fill"></div></div>
-                   </div>
-                </div>
-              </div>
-           </div>
+            <div className="platform-stats-grid">
+               {stats.loading ? (
+                 <div className="loading-stats">Syncing live data from platforms...</div>
+               ) : !user.leetcode && !user.codeforces && !user.codechef && !user.hackerrank && !user.geeksforgeeks ? (
+                 <div className="no-stats-msg">Link your handles above to see real-time stats!</div>
+               ) : (
+                 <>
+                   {user.leetcode && stats.leetcode && (
+                     <div className="platform-stat-card lc-border">
+                        <div className="ps-header">
+                           <span className="ps-title">LeetCode</span>
+                           <span className="ps-status">LIVE</span>
+                        </div>
+                        <div className="ps-main">
+                           <div className="ps-count">{stats.leetcode.totalSolved}</div>
+                           <div className="ps-label">Total Solved</div>
+                        </div>
+                        <div className="ps-bars">
+                           <div className="ps-bar easy"><div className="ps-bar-fill" style={{width: `${(stats.leetcode.easySolved/stats.leetcode.totalEasy * 100) || 0}%`}}></div></div>
+                           <div className="ps-bar med"><div className="ps-bar-fill" style={{width: `${(stats.leetcode.mediumSolved/stats.leetcode.totalMedium * 100) || 0}%`}}></div></div>
+                           <div className="ps-bar hard"><div className="ps-bar-fill" style={{width: `${(stats.leetcode.hardSolved/stats.leetcode.totalHard * 100) || 0}%`}}></div></div>
+                        </div>
+                     </div>
+                   )}
+                   {user.hackerrank && (
+                     <div className="platform-stat-card hr-border">
+                        <div className="ps-header">
+                           <span className="ps-title">HackerRank</span>
+                           <span className="ps-status">SYNC</span>
+                        </div>
+                        <div className="ps-main">
+                           <div className="ps-count">{user.stats?.hackerrank || 0}</div>
+                           <div className="ps-label">Solved / Score</div>
+                        </div>
+                     </div>
+                   )}
+                   {user.codeforces && stats.codeforces && (
+                     <div className="platform-stat-card cf-border">
+                        <div className="ps-header">
+                           <span className="ps-title">Codeforces</span>
+                           <span className="ps-status">LIVE</span>
+                        </div>
+                        <div className="ps-main">
+                           <div className="ps-count">{stats.codeforces.rating || 'N/A'}</div>
+                           <div className="ps-label">{stats.codeforces.rank || 'Student'}</div>
+                        </div>
+                        <div className="ps-footer">
+                           <span>Max: {stats.codeforces.maxRating || 'N/A'}</span>
+                        </div>
+                     </div>
+                   )}
+                   {user.codechef && stats.codechef && stats.codechef.success !== false && (
+                     <div className="platform-stat-card cc-border">
+                        <div className="ps-header">
+                           <span className="ps-title">CodeChef</span>
+                           <span className="ps-status">LIVE</span>
+                        </div>
+                        <div className="ps-main">
+                           <div className="ps-count">{stats.codechef.currentRating || 'N/A'}</div>
+                           <div className="ps-label">{stats.codechef.stars || 'Unrated'}</div>
+                        </div>
+                     </div>
+                   )}
+                   {user.geeksforgeeks && (
+                     <div className="platform-stat-card gfg-border">
+                        <div className="ps-header">
+                           <span className="ps-title">GeeksforGeeks</span>
+                           <span className="ps-status">SYNC</span>
+                        </div>
+                        <div className="ps-main">
+                           <div className="ps-count">{user.stats?.geeksforgeeks || 0}</div>
+                           <div className="ps-label">Total Solved</div>
+                        </div>
+                     </div>
+                   )}
+                 </>
+               )}
+            </div>
         </div>
       </div>
     </div>

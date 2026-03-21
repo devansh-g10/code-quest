@@ -149,8 +149,8 @@ const App = () => {
   }
 
   return (
-    <div className={`app-shell ${activeTab === 'landing' ? 'full-width' : ''}`}>
-      {activeTab !== 'landing' && (
+    <div className={`app-shell ${(activeTab === 'landing' || activeTab === 'profile') ? 'full-width' : ''}`}>
+      {activeTab === 'problems' && (
         <aside className="sidebar animate-v3">
           <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer' }}>
             CODEQUEST <span>V3.0</span>

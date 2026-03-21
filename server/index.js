@@ -110,7 +110,12 @@ app.post('/api/login', async (req, res) => {
         bio: user.bio,
         github: user.github,
         leetcode: user.leetcode,
+        hackerrank: user.hackerrank,
+        geeksforgeeks: user.geeksforgeeks,
+        codeforces: user.codeforces,
+        codechef: user.codechef,
         linkedin: user.linkedin,
+        stats: user.stats || { leetcode: 0, hackerrank: 0, codechef: 0, codeforces: 0, geeksforgeeks: 0, total: 0 },
         isPremium: user.isPremium
       }
     });
@@ -122,7 +127,7 @@ app.post('/api/login', async (req, res) => {
 // 3. Update Profile
 app.put('/api/user/profile', authMiddleware, async (req, res) => {
   try {
-    const { name, bio, avatar, github, leetcode, linkedin } = req.body;
+    const { name, bio, avatar, github, leetcode, linkedin, hackerrank, codeforces, codechef, geeksforgeeks } = req.body;
     const user = await User.findById(req.userData.userId);
 
     if (!user) return res.status(404).json({ message: 'User not found' });
@@ -131,8 +136,12 @@ app.put('/api/user/profile', authMiddleware, async (req, res) => {
     if (bio !== undefined) user.bio = bio;
     if (avatar) user.avatar = avatar;
     if (github !== undefined) user.github = github;
-    if (leetcode !== undefined) user.leetcode = leetcode;
     if (linkedin !== undefined) user.linkedin = linkedin;
+    if (leetcode !== undefined) user.leetcode = leetcode;
+    if (hackerrank !== undefined) user.hackerrank = hackerrank;
+    if (codechef !== undefined) user.codechef = codechef;
+    if (codeforces !== undefined) user.codeforces = codeforces;
+    if (geeksforgeeks !== undefined) user.geeksforgeeks = geeksforgeeks;
 
     await user.save();
 
@@ -146,7 +155,12 @@ app.put('/api/user/profile', authMiddleware, async (req, res) => {
         bio: user.bio,
         github: user.github,
         leetcode: user.leetcode,
+        hackerrank: user.hackerrank,
+        geeksforgeeks: user.geeksforgeeks,
+        codeforces: user.codeforces,
+        codechef: user.codechef,
         linkedin: user.linkedin,
+        stats: user.stats || { leetcode: 0, hackerrank: 0, codechef: 0, codeforces: 0, geeksforgeeks: 0, total: 0 },
         isPremium: user.isPremium
       }
     });
