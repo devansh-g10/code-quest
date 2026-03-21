@@ -41,10 +41,30 @@ const Profile = ({ user, token, onUpdateUser }) => {
 
   const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+  const extractHandle = (input) => {
+    if (!input) return '';
+    // If it's a full URL, try to get the last part
+    if (input.includes('/') && input.startsWith('http')) {
+      const parts = input.trim().replace(/\/$/, '').split('/');
+      return parts[parts.length - 1];
+    }
+    return input.trim();
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage({ type: '', text: '' });
+
+    // Clean handles before saving
+    const cleanedData = {
+      ...formData,
+      leetcode: extractHandle(formData.leetcode),
+      hackerrank: extractHandle(formData.hackerrank),
+      codeforces: extractHandle(formData.codeforces),
+      codechef: extractHandle(formData.codechef),
+      geeksforgeeks: extractHandle(formData.geeksforgeeks)
+    };
 
     try {
       const res = await fetch(`${API_BASE}/user/profile`, {
@@ -53,7 +73,7 @@ const Profile = ({ user, token, onUpdateUser }) => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(cleanedData)
       });
 
       const data = await res.json();
