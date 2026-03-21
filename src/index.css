@@ -1940,3 +1940,106 @@ body {
   filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
 }
 
+
+/* --- CLASSIC CODING STATS (v3.0 RESTORED) --- */
+.classic-stats-container {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  padding: 2rem 0;
+}
+
+.stats-circle-box {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.stats-circle-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 12;
+}
+
+.circle-progress {
+  fill: none;
+  stroke: var(--accent-blue);
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-in-out;
+  filter: drop-shadow(0 0 5px var(--accent-blue));
+}
+
+.circle-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.count-big {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: white;
+  line-height: 1;
+}
+
+.label-sub {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stats-bars-box {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stat-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sb-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.sb-label { color: #888; text-transform: uppercase; letter-spacing: 1px; }
+.sb-val { color: white; }
+
+.sb-bar-bg {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.sb-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 1s ease-in-out;
+}
+
+.sb-fill.easy { background: linear-gradient(90deg, #22c55e, #4ade80); box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
+.sb-fill.medium { background: linear-gradient(90deg, #3b82f6, #60a5fa); box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+.sb-fill.hard { background: linear-gradient(90deg, #f97316, #fb923c); box-shadow: 0 0 10px rgba(249, 115, 22, 0.3); }
+
