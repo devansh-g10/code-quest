@@ -1877,3 +1877,66 @@ body {
 .premium-input-name { font-size: 2.5rem; font-weight: 900; }
 .premium-input-bio { height: 120px; font-size: 1rem; }
 
+
+/* Advanced Edit Dashboard Button */
+.premium-action-btn.edit {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.2rem 3rem;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+
+.premium-action-btn.edit:before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  transition: all 0.5s;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.premium-action-btn.edit:hover:before {
+  opacity: 1;
+  transform: translate(25%, 25%);
+}
+
+.premium-action-btn.edit:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 40px rgba(59, 130, 246, 0.6);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.premium-action-btn.edit svg {
+  filter: drop-shadow(0 0 5px white);
+}
+
+
+/* Glow effects for PRO pill */
+.pill-val {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: black;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+  animation: pulse-glow 2s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  from { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+  to { box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); }
+}
+
+.premium-email-tag svg {
+  color: #3b82f6;
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
+}
+
