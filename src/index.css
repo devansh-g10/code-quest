@@ -144,6 +144,9 @@ body {
   display: flex;
   align-items: center;
   gap: 2rem;
+  border: none !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
 }
 
 .search-wrapper {
