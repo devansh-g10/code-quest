@@ -16,7 +16,7 @@ const SimpleUserDropdown = ({ user, onLogout, onOpenProfile, onOpenDashboard }) 
   }, []);
 
   return (
-    <div className="simple-dropdown-wrapper" ref={dropdownRef}>
+    <div className="simple-dropdown-container" ref={dropdownRef}>
       <button 
         className="avatar-trigger" 
         onClick={() => setIsOpen(!isOpen)}
