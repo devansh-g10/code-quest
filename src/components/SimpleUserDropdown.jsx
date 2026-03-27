@@ -21,16 +21,16 @@ const SimpleUserDropdown = ({ user, onLogout, onOpenProfile, onOpenDashboard }) 
         className="avatar-trigger" 
         onClick={() => setIsOpen(!isOpen)}
       >
-        {user.avatar ? (
+        {user?.avatar ? (
           <img src={user.avatar} alt="Profile" className="user-avatar-circle-img" />
         ) : (
           <div className="user-avatar-circle">
-            {user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+            {user?.name?.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || '??'}
           </div>
         )}
       </button>
 
-      {isOpen && (
+      {isOpen && user && (
         <div className="simple-dropdown-menu">
           <div className="dropdown-user-info">
             <span className="dropdown-name">{user.name}</span>

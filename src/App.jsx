@@ -5,7 +5,7 @@ import SimpleUserDropdown from './components/SimpleUserDropdown'
 import Contests from './components/Contests'
 import Profile from './components/Profile'
 import Landing from './components/Landing'
-import { LayoutGrid, Trophy, Terminal } from 'lucide-react'
+import { LayoutGrid, Trophy, Terminal, Home, BookOpen, User, Menu, X, Filter } from 'lucide-react'
 
 const ITEMS_PER_PAGE = 24;
 
@@ -23,6 +23,7 @@ const App = () => {
   const [premiumFilter, setPremiumFilter] = useState('All');
   const [sortBy, setSortBy] = useState('Newest');
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -33,7 +34,11 @@ const App = () => {
         const res = await fetch(`${API_BASE}/questions`);
         if (!res.ok) throw new Error('Failed to fetch questions');
         const data = await res.json();
-        setQuestions(data);
+        const enrichedData = data.map(q => ({
+          ...q,
+          solvedPercentage: Math.floor(Math.random() * 101) // For demonstration
+        }));
+        setQuestions(enrichedData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -97,7 +102,7 @@ const App = () => {
     }
 
     return result;
-  }, [searchQuery, platformFilter, difficultyFilter, premiumFilter, sortBy]);
+  }, [searchQuery, platformFilter, difficultyFilter, premiumFilter, sortBy, questions]);
 
   const currentQuestions = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -114,6 +119,33 @@ const App = () => {
     gfg: questions.filter(q => q.platform === 'GeeksforGeeks').length
   }), [questions, filteredAndSortedQuestions]);
 
+  useEffect(() => {
+    const handleGlobalMouseMove = (e) => {
+      document.documentElement.style.setProperty('--global-mouse-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--global-mouse-y', `${e.clientY}px`);
+    };
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
+  }, []);
+
+  useEffect(() => {
+    const handleHeaderMouseMove = (e) => {
+      const header = document.querySelector('.landing-bar');
+      if (header) {
+        const rect = header.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        header.style.setProperty('--header-mouse-x', `${x}%`);
+        header.style.setProperty('--header-mouse-y', `${y}%`);
+      }
+    };
+    
+    if (activeTab === 'landing') {
+      window.addEventListener('mousemove', handleHeaderMouseMove);
+    }
+    return () => window.removeEventListener('mousemove', handleHeaderMouseMove);
+  }, [activeTab]);
+
   const SidebarButton = ({ label, value, current, onClick, count }) => (
     <button 
       className={`sidebar-btn ${current === value ? 'active' : ''}`}
@@ -124,34 +156,38 @@ const App = () => {
     </button>
   );
 
-  if (!user && !localStorage.getItem('token')) {
+  if (!user) {
     return <Login onLogin={handleLogin} />;
   }
 
   if (isLoading) {
     return (
-      <div style={{ background: 'var(--bg-bg)', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={{ color: 'var(--accent-blue)', fontSize: '1.5rem', fontWeight: 'bold' }}>Loading Library...</div>
+      <div style={{ background: 'var(--bg-main)', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ color: 'var(--accent-primary)', fontSize: '1.5rem', fontWeight: 'bold', textShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}>Loading Library...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div style={{ background: 'var(--bg-bg)', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ background: 'var(--bg-main)', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ color: 'var(--accent-red)', textAlign: 'center' }}>
-          <h2>Connection Error</h2>
-          <p>{error}</p>
-          <button onClick={() => window.location.reload()} className="sidebar-btn" style={{ marginTop: '2rem' }}>Retry</button>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', letterSpacing: '-1px' }}>Connection Error</h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>{error}</p>
+          <button onClick={() => window.location.reload()} className="solve-btn" style={{ width: 'auto', padding: '1rem 3rem' }}>Retry Connection</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`app-shell ${(activeTab === 'landing' || activeTab === 'profile') ? 'full-width' : ''}`}>
-      {activeTab === 'problems' && (
-        <aside className="sidebar animate-v3">
+    <div className={`app-shell ${(activeTab === 'landing' || activeTab === 'profile' || !isSidebarOpen) ? 'full-width' : ''}`}>
+      <div className="global-bg-glow"></div>
+      <div className="bg-glow-orb orb-1"></div>
+      <div className="bg-glow-orb orb-2"></div>
+      
+      {(activeTab === 'problems' || activeTab === 'contests') && (
+        <aside className={`sidebar animate-v3 ${!isSidebarOpen ? 'sidebar-hidden' : ''}`}>
           <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer' }}>
             CODEQUEST <span>V3.0</span>
           </div>
@@ -208,8 +244,8 @@ const App = () => {
   
             <div className="filter-section" style={{ marginTop: 'auto' }}>
               <h4 className="filter-section-title">Question Access</h4>
-              <SidebarButton label="Free Only" value="Free" current={premiumFilter} onClick={setPlatformFilter} />
-              <SidebarButton label="Premium Only" value="Premium" current={premiumFilter} onClick={setPlatformFilter} count={stats.premium} />
+              <SidebarButton label="Free Only" value="Free" current={premiumFilter} onClick={setPremiumFilter} />
+              <SidebarButton label="Premium Only" value="Premium" current={premiumFilter} onClick={setPremiumFilter} count={stats.premium} />
               <button className="sidebar-btn" onClick={() => {
                  setPlatformFilter('All');
                  setDifficultyFilter('All');
@@ -224,12 +260,30 @@ const App = () => {
       <main className="main-content">
         <header className={`top-bar ${activeTab === 'landing' ? 'landing-bar' : ''}`}>
           {activeTab === 'landing' ? (
-            <>
-              <div style={{ flex: 1 }}></div> {/* Left Spacer */}
-              <div className="sidebar-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer', margin: 0 }}>
-                CODEQUEST <span>V3.0</span>
+            <nav className="landing-nav-v3 animate-v3">
+              <div className="nav-left">
+                <div className="sidebar-logo advanced-logo" onClick={() => setActiveTab('landing')} style={{ cursor: 'pointer', margin: 0 }}>
+                  <div className="logo-glimmer"></div>
+                  CODEQUEST <span>V3.0</span>
+                </div>
+                <div className="nav-links">
+                  <span className="nav-link-item" onClick={() => {
+                     const features = document.querySelector('.features-landing');
+                     if (features) features.scrollIntoView({ behavior: 'smooth' });
+                  }}>Features</span>
+                  <span className="nav-link-item" onClick={() => setActiveTab('contests')}>Contests</span>
+                  <span className="nav-link-item" onClick={() => {
+                     const creator = document.querySelector('.creator-section');
+                     if (creator) creator.scrollIntoView({ behavior: 'smooth' });
+                  }}>Our Story</span>
+                </div>
               </div>
-              <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+
+              <div className="nav-right">
+                <div className="live-status-pill">
+                  <span className="pulse-dot"></span>
+                  8.4k Live Engineers
+                </div>
                 <SimpleUserDropdown 
                   user={user} 
                   onLogout={handleLogout} 
@@ -237,9 +291,16 @@ const App = () => {
                   onOpenDashboard={() => setActiveTab('problems')}
                 />
               </div>
-            </>
+            </nav>
           ) : activeTab === 'problems' ? (
             <>
+              <button 
+                className="toggle-sidebar-btn" 
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                aria-label="Toggle Sidebar"
+              >
+                {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
               <div className="search-wrapper">
                 <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8"></circle>
@@ -252,6 +313,14 @@ const App = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
+                <div className="search-kbd">⌘K</div>
+              </div>
+
+              <div className="top-bar-stats hide-mobile">
+                <div className="live-status-pill small">
+                  <span className="pulse-dot"></span>
+                  8.2k Live
+                </div>
               </div>
 
               <div className="sort-group">
@@ -283,7 +352,15 @@ const App = () => {
               />
             </>
           ) : (
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <button 
+                className="toggle-sidebar-btn" 
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                aria-label="Toggle Sidebar"
+              >
+                {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+              <div style={{ flex: 1 }}></div>
               <SimpleUserDropdown 
                 user={user} 
                 onLogout={handleLogout} 
@@ -295,7 +372,13 @@ const App = () => {
         </header>
 
         {activeTab === 'landing' ? (
-          <Landing onEnter={() => setActiveTab(isLoggedIn ? 'problems' : 'login')} />
+          <Landing 
+            onEnter={() => setActiveTab(isLoggedIn ? 'problems' : 'login')} 
+            onNavigate={(tab) => {
+              if (isLoggedIn) setActiveTab(tab);
+              else setActiveTab('login');
+            }}
+          />
         ) : activeTab === 'problems' ? (
           <section className="grid-container">
             <div className="stats-grid animate-v3">
@@ -367,6 +450,38 @@ const App = () => {
         ) : (
           <Profile user={user} token={localStorage.getItem('token')} onUpdateUser={onUpdateUser} />
         )}
+
+        {/* Mobile Navigation Bar */}
+        <div className="mobile-nav-bar">
+          <div 
+            className={`mobile-nav-item ${activeTab === 'landing' ? 'active' : ''}`}
+            onClick={() => setActiveTab('landing')}
+          >
+            <Home />
+            <span>Home</span>
+          </div>
+          <div 
+            className={`mobile-nav-item ${activeTab === 'problems' ? 'active' : ''}`}
+            onClick={() => setActiveTab('problems')}
+          >
+            <BookOpen />
+            <span>Library</span>
+          </div>
+          <div 
+            className={`mobile-nav-item ${activeTab === 'contests' ? 'active' : ''}`}
+            onClick={() => setActiveTab('contests')}
+          >
+            <Trophy />
+            <span>Contests</span>
+          </div>
+          <div 
+            className={`mobile-nav-item ${activeTab === 'profile' ? 'active' : ''}`}
+            onClick={() => setActiveTab('profile')}
+          >
+            <User />
+            <span>Profile</span>
+          </div>
+        </div>
       </main>
     </div>
   )

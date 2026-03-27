@@ -1,3 +1,5 @@
+import { LogOut, Trophy, Award } from 'lucide-react';
+
 const UserProfile = ({ user, onLogout }) => {
   if (!user) return null;
 
@@ -5,23 +7,38 @@ const UserProfile = ({ user, onLogout }) => {
     <div className="user-profile-v3 animate-v3">
       <div className="user-profile-header">
         <div className="avatar-wrapper">
+          <div className="avatar-glow"></div>
           <img src={user.avatar} alt={user.name} className="user-avatar" />
-          {user.isPremium && <div className="premium-badge-dot" />}
+          {user.isPremium && <div className="premium-badge-dot" title="Premium Engineer" />}
         </div>
         <div className="user-info">
-          <h3 className="user-name">{user.name}</h3>
+          <div className="user-name-row">
+            <h3 className="user-name">{user.name}</h3>
+            {user.isPremium && <Award size={14} className="premium-icon-small" />}
+          </div>
           <p className="user-status">
-            Access all features with our <span className="premium-accent">Premium subscription!</span>
+            {user.isPremium ? (
+              <span className="status-highlight">Elite Member</span>
+            ) : (
+              <>Upgrade to <span className="premium-accent">Premium</span> for full access</>
+            )}
           </p>
         </div>
       </div>
       
+      <div className="profile-mini-stats">
+         <div className="mini-stat-item">
+            <Trophy size={12} />
+            <span>Top 5%</span>
+         </div>
+         <div className="mini-stat-item">
+            <div className="pulse-dot"></div>
+            <span>Online</span>
+         </div>
+      </div>
+      
       <button className="sign-out-btn" onClick={onLogout}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
+        <LogOut size={16} />
         Sign Out
       </button>
     </div>
