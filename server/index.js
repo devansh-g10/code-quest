@@ -124,6 +124,30 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// --- STATS SYNC WORKER ---
+const syncUserStats = async (userId) => {
+  try {
+    const user = await User.findById(userId);
+    if (!user || !user.leetcode) return;
+
+    // Fetch LeetCode Stats (Middleman API)
+    const lcRes = await fetch(`https://leetcode-stats-api.herokuapp.com/${user.leetcode}`);
+    const lcData = await lcRes.json();
+
+    if (lcData.status === 'success') {
+      user.stats.leetcode = lcData.totalSolved || 0;
+      user.stats.total = (user.stats.leetcode || 0) + 
+                         (user.stats.codeforces || 0) + 
+                         (user.stats.codechef || 0) + 
+                         (user.stats.geeksforgeeks || 0);
+      await user.save();
+      console.log(`✅ Stats synced for ${user.name}`);
+    }
+  } catch (err) {
+    console.error("❌ Stats sync error:", err.message);
+  }
+};
+
 // 3. Update Profile
 app.put('/api/user/profile', authMiddleware, async (req, res) => {
   try {
@@ -144,6 +168,9 @@ app.put('/api/user/profile', authMiddleware, async (req, res) => {
     if (geeksforgeeks !== undefined) user.geeksforgeeks = geeksforgeeks;
 
     await user.save();
+
+    // Trigger Background Sync (Don't await)
+    syncUserStats(user._id);
 
     res.status(200).json({
       message: 'Profile updated successfully',
